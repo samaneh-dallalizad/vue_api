@@ -1,29 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="app">     
+    <Header/>
+      <router-view  :key="$route.path"></router-view>
+    <Footer/>   
   </div>
 </template>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFacebook, faTwitter, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faArrowUp, faListAlt } from '@fortawesome/free-solid-svg-icons';
 
+library.add(faFacebook);
+library.add(faTwitter);
+library.add(faInstagram);
+library.add(faWhatsapp);
+library.add(faArrowUp);
+library.add(faListAlt);
+
+@Component({
+  components: {
+    Header,
+    Footer,
+  },
+})
+export default class App extends Vue {}
+</script>
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+/* row */
+.row{margin:0;}
+/* public backgrounds */
+.bkg-blue{background:#1867c0;}
+.bkg-green{background:#1ae4b5;}
+.bkg-purple{background:#4b187f;}
+.bkg-pink{background:#e41aa6;}
+/* public colors */
+.clr-blue{color:#1867c0;}
+.clr-green{color:#1ae4b5;}
+.clr-purple{color:#4b187f;}
+.clr-pink{color:#e41aa6;}
 </style>
