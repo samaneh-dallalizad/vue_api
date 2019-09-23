@@ -70,7 +70,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 @Component
 export default class Random extends Vue {
   @Prop() private detailEntry!: Entry;
-  @Prop() private relevantEntries!: Entry;
+  @Prop() private relevantEntries!: Entry[];
 }
 </script>
 <!-- /script -->

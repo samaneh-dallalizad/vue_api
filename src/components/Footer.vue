@@ -78,7 +78,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Entry } from '@/types/Entry';
-import { __values } from 'tslib';
 import { getAllEntries, getCategories } from '@/services/Api';
 @Component({
   components: {

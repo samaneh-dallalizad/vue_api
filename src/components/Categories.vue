@@ -18,7 +18,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { CatWithClass } from '@/types/catWithClass';
-import { __values } from 'tslib';
 
 @Component
 export default class Categories extends Vue {
