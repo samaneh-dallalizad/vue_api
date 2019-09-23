@@ -4,6 +4,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Entry } from '@/types/Entry';
+import { getRandomEntry } from '@/services/Api';
 import RandomEntry from '@/components/Random.vue'; // @ is an alias to /src
 
 @Component({
@@ -15,18 +16,13 @@ export default class Random extends Vue {
   private random: Entry | null = null;
 
   private mounted() {
-    fetch('https://api.publicapis.org/random')
-      .then((response) => response.json())
-      .then((data) => {
-        this.random = data.entries[0];
-      });
+    // get random entry
+    getRandomEntry().then((value) => this.random = value);
   }
+  //  handle button click to show another random
   private fetchRandom(event: any) {
-    fetch('https://api.publicapis.org/random')
-    .then((response) => response.json())
-    .then((data) => {
-      this.random = data.entries[0];
-    });
+    // get random entry
+    getRandomEntry().then((value) => this.random = value);
   }
 }
 </script>

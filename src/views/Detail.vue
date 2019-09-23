@@ -1,10 +1,12 @@
 <template>
-  <DetailComponent :detailEntry="detailEntry" />
+  <DetailComponent :detailEntry="detailEntry" :relevantEntries="relevantEntries" />
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Entry } from '@/types/Entry';
+import { getEntry, relevantEntries } from '@/services/Api';
 import DetailComponent from '@/components/Detail.vue'; // @ is an alias to /src
+import { Md5 } from 'ts-md5';
 @Component({
   components: {
     DetailComponent,
@@ -12,16 +14,18 @@ import DetailComponent from '@/components/Detail.vue'; // @ is an alias to /src
 })
 export default class Detail extends Vue {
   private detailEntry: Entry | null = null;
-  private entries: Entry[] = [];
+  private relevantEntries: Entry[] = [];
   private mounted() {
+    /* title query string  */
     const title: string = this.$route.params.title;
+    /* link query string  */
     const link: string = this.$route.params.link;
-    fetch('https://api.publicapis.org/entries?title=' + encodeURIComponent(title))
-      .then((response) => response.json())
-      .then((data) => {
-        this.entries = data.entries.filter((param: Entry) => param.Link === link);
-        this.detailEntry = this.entries[0];
-      });
+    /* get entry  */
+    getEntry(title, link).then((value) => {
+      this.detailEntry = value[0];
+      /* 3 relevant entries with same categories  */
+      return relevantEntries(value[0].Category, link);
+    }).then((value) => this.relevantEntries = value);
   }
 }
 </script>

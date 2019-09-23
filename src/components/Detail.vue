@@ -42,9 +42,22 @@
                 </li>
               </ul>                        
            </div>
-           <!-- /info --> 
+           <!-- /info -->           
         </div>        
-      </div>         
+      </div>    
+       <h5 class="relevant-title text-center">Entries with same categories</h5> 
+      <div class="row relevant-entry">       
+        <div v-for="(entry,index) in relevantEntries" :key="index"  class="col-md-4 col-sm-6 col-xs-12" >
+          <figure class="box bkg-blue"   >
+            <span class="title clr-blue" >{{entry.API}}</span>
+            <figcaption>
+              <p>{{entry.Description}}</p>                           
+              <router-link class="detail" :title="entry.API"  :to="{ name: 'detail', params:{ title: entry.API, link:entry.LinkHash}}" >more</router-link>
+            </figcaption>
+          </figure>
+        </div>     
+        </div>
+        <!-- / entries -->         
     </div>   
   </div>
   <!-- /detail -->  
@@ -53,9 +66,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Entry } from '@/types/Entry';
+import { Md5 } from 'ts-md5/dist/md5';
 @Component
 export default class Random extends Vue {
   @Prop() private detailEntry!: Entry;
+  @Prop() private relevantEntries!: Entry;
 }
 </script>
 <!-- /script -->
@@ -103,6 +118,76 @@ export default class Random extends Vue {
 #detail .info .title{
   font-weight: bold;
   color:#e41aa6;
+}
+/* relevant entry*/
+#detail .relevant-entry{
+  text-align:center; 
+  margin:20px 0;
+}  
+#detail .relevant-title{
+  padding: 15px 0;
+  position: relative;
+  border-bottom: 1px solid #e5e5e5;
+  margin:30px 0;
+  color:#555;
+}
+#detail .relevant-title:before {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 0;right:0;
+  margin:auto;
+  bottom: -15px;
+  background: #1ae4b5;
+  content: "";
+  border-radius: 50%;
+}
+#detail .relevant-title:after {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 45px;right:0;
+  margin:auto;
+  bottom:-10px;
+  background: #e41aa6b5;
+  content: "";
+  border-radius: 50%;
+}
+/* box */
+#detail .box{
+  border-radius:10px;  
+  box-shadow: 0 0 20px #999;
+  position: relative;
+  overflow: hidden;
+}
+/* title */
+#detail .box .title{
+  text-align: center;
+  background: #fff;
+  display:inline-block;
+  width:100%;
+  padding:30px 10px ;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  font-weight: bold;
+  font-size:1rem;
+}
+/* figcaption */
+#detail .box figcaption{
+  padding:10px;
+  min-height:130px;
+  color:#fff;
+  font-size:.9rem;
+}
+/* detail */
+#detail .box .detail{
+    position: absolute;
+    background: #fff;
+    bottom: 7px;
+    right: -27px;
+    padding: 5px 46px;
+    -webkit-transform: rotate(-40deg);
+    transform: rotate(-40deg);
 }
 </style>
 <!-- /style -->

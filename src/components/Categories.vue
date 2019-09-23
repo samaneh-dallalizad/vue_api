@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div v-for="(cat,index) in CatWithClasses" :key="index"  class="col-md-3 col-sm-6 col-xs-12">
-          <figure class="circle-box hvr-ripple-out">
+          <figure class="circle-box hvr-ripple-out  animated rotateIn">
             <router-link :title="'Home'"  :to="{ name: 'entries', params:{ category: cat.value}}" >
               <figcaption :class="cat.class" >{{cat.value}}</figcaption>
             </router-link>
@@ -24,7 +24,7 @@ import { __values } from 'tslib';
 export default class Categories extends Vue {
    public classes: string[] = ['bkg-pink', 'bkg-blue', 'bkg-purple', 'bkg-green'];
    @Prop() private categories!: string[];
-
+    /* all categories with class */
    get CatWithClasses(): CatWithClass[] {
         return this.categories.map((cat, index) => ({value: cat, class: this.classes[index % 4]}));
   }

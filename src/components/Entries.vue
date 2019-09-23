@@ -4,7 +4,7 @@
       <div v-if="entries.length > 0">
         <div class="row sort" >
           <div class="col-md-4 offset-md-4 col-sm-12 offset-sm-0 col-xs-12 offset-xs-0">
-            <label for>SortBy:</label>
+            <label for>Sort By title:</label>
             <select @change="onChange($event)" class="form-control" name id>
               <option value="asc">Asc</option>
               <option value="desc">Desc</option>
@@ -12,14 +12,14 @@
           </div>      
         </div> 
         <!-- / sort -->
-        <div class="row">
+        <div class="row animated slideInLeft">
           <div v-for="(entry,index) in enteriesWithClasses" :key="index"  class="col-md-3 col-sm-6 col-xs-12" >
-            <figure class="box hvr-wobble-vertical" :class="entry.class.bg"  >
+            <figure class="box hvr-wobble-vertical " :class="entry.class.bg"  >
               <span class="title" :class="entry.class.clr">{{entry.value.API}}</span>
               <figcaption>
                 <p>{{entry.value.Description}}</p> 
                 <p><font-awesome-icon icon="list-alt" /> {{entry.value.Category}}</p>          
-                <router-link class="detail" :title="entry.value.API"  :to="{ name: 'detail', params:{ title: entry.value.API, link:entry.value.Link.trim() }}" >more</router-link>
+                <router-link class="detail" :title="entry.value.API"  :to="{ name: 'detail', params:{ title: entry.value.API, link:entry.value.LinkHash}}" >more</router-link>
               </figcaption>
             </figure>
           </div>     
@@ -38,7 +38,7 @@ import { Entry } from '@/types/Entry';
 import { ColorStyle } from '@/types/colorStyle';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { EntryWithClass } from '@/types/entryWithClass';
-import { __values } from 'tslib';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   components: {
@@ -69,6 +69,7 @@ export default class Entries extends Vue {
   @Prop() private entries!: Entry[];
   @Prop() private limit: number | undefined;
   @Prop() private onChange!: () => void;
+  /* all entries with class */
   get enteriesWithClasses(): EntryWithClass[] {
     return this.entries.slice(0, this.limit).map((entry, index) => ({value: entry, class: this.classes[index % 4]}));
   }

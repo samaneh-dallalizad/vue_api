@@ -7,12 +7,9 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <p class="footer-title">Categories</p>
               <!-- / footer-title -->
-              <ul class="footer-items">
-                <li>
-                  <router-link :title="'Categories'" to="/categories">All Categories</router-link>
-                </li>
+              <ul class="footer-items">                
                 <li v-for="(cat,index) in footerCategories" :key="index" >
-                  <router-link :title="cat" to="/random">{{cat}}</router-link>
+                  <router-link :title="cat" :to="{ name: 'entries', params:{ category: cat}}">{{cat}}</router-link>
                 </li>                
               </ul>
               <!-- / footer-items -->
@@ -23,7 +20,7 @@
               <!-- / footer-title -->
               <ul   class="footer-items" >
                 <li v-for="(entry,index) in footerEntries" :key="index" >
-                  <router-link :title="entry.API"  :to="{ name: 'detail', params:{ title: entry.API, link:entry.Link.trim() }}" >
+                  <router-link :title="entry.API"  :to="{ name: 'detail', params:{ title: entry.API, link: entry.LinkHash }}" >
                     {{entry.API}}
                   </router-link>
                 </li>             
@@ -82,6 +79,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Entry } from '@/types/Entry';
 import { __values } from 'tslib';
+import { getAllEntries, getCategories } from '@/services/Api';
 @Component({
   components: {
     'font-awesome-icon': FontAwesomeIcon,
@@ -91,13 +89,11 @@ export default class Footer extends Vue {
   private footerEntries: Entry[] = [];
   private footerCategories: string[] = [];
   private mounted() {
-   const fetchEntries = fetch('https://api.publicapis.org/entries');
-   const fechCategories = fetch('https://api.publicapis.org/categories');
-   Promise.all([fetchEntries, fechCategories])
-      .then((response) => Promise.all(response.map((value) => value.json())))
+   // get all entries and cateories for footer sitemap
+   Promise.all([getAllEntries(), getCategories()])
       .then((data) => {
-        this.footerEntries = data[0].entries.slice(0, 5);
-        this.footerCategories = data[1].slice(0 , 4);
+        this.footerEntries = data[0].slice(0, 5);
+        this.footerCategories = data[1].slice(0 , 5);
     });
   }
 }

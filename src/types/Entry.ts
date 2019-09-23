@@ -6,4 +6,5 @@ export interface Entry {
   Cors: string;
   Link: string;
   Category: string;
+  LinkHash: string;
 }

@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getCategories } from '@/services/Api';
 import Categories from '@/components/Categories.vue'; // @ is an alias to /src
 @Component({
   components: {
@@ -13,9 +14,8 @@ import Categories from '@/components/Categories.vue'; // @ is an alias to /src
 export default class Category extends Vue {
   private cat: string[] = [];
   private mounted() {
-    fetch('https://api.publicapis.org/categories')
-    .then((response) => response.json())
-    .then((data) => (this.cat = data));
+    /* get categories */
+   getCategories().then((value) => this.cat = value);
   }
 }
 </script>
